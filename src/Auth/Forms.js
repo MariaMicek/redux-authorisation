@@ -8,6 +8,7 @@ const Forms = (props) => (
         <LogInForm
             email={props.email}
             password={props.password}
+
             onEmailChange={props.onEmailChange}
             onPasswordChange={props.onPasswordChange}
             onLogInClick={props.onLogInClick}
@@ -16,9 +17,9 @@ const Forms = (props) => (
             onLogInByGoogleClick={props.onLogInByGoogleClick}
         />
         <RegistrationForm
-            email={props.email}
-            password={props.password}
-            passwordCheck={props.passwordCheck}
+            signUpEmail={props.signUpEmail}
+            signUpPassword={props.signUpPassword}
+            signUpPasswordCheck={props.signUpPasswordCheck}
 
             onEmailChange={props.onEmailChange}
             onPasswordChange={props.onPasswordChange}

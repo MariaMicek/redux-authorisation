@@ -9,7 +9,7 @@ const LogInForm = (props) => (
             onChange={props.onEmailChange}
         />
          <input
-            type={'password'}
+            // type={'password'}
             value={props.password}
             onChange={props.onPasswordChange}
         />

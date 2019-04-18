@@ -5,17 +5,17 @@ const RegistrationForm = (props) => (
         <h2>SIGN UP</h2>
         <input
             type={'text'}
-            value={props.email}
+            value={props.signUpEmail}
             onChange={props.onEmailChange}
         />
         <input
-            type={'password'}
-            value={props.password}
+            // type={'password'}
+            value={props.signUpPassword}
             onChange={props.onPasswordChange}
         />
         <input
-            type={'password'}
-            value={props.passwordCheck}
+            // type={'password'}
+            value={props.signUpPasswordCheck}
             onChange={props.onPasswordCheckChange}
         />
         <button
