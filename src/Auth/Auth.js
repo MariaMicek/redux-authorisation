@@ -2,41 +2,54 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Forms from './Forms'
 import {
-	emailChangedActionCreator, 
-	passwordChangedActionCreator, 
-	signUpEmailChangedActCreator, 
-	signUpPassChangedActCreator, 
+	emailChangedActionCreator,
+	passwordChangedActionCreator,
+	signUpEmailChangedActCreator,
+	signUpPassChangedActCreator,
 	signUpPassCheckChangedActCreator,
 	logInAsyncActionCreator,
 	logInByGoogleAsyncActionCreator,
 	createUserAsyncActionCreator,
 } from '../state/auth'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const Auth = (props) => {
 	return (
 		<div>
 			{
-				props._user ?
-					props.children
+				props._isLoading ?
+					<div
+						style={{
+							height: '100vh',
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+						}}
+					>
+						<CircularProgress />
+					</div>
 					:
-					<Forms
-						email={props._email}
-						password={props._password}
-						signUpEmail={props._signUpEmail}
-						signUpPassword={props._signUpPassword}
-						signUpPasswordCheck={props._signUpPasswordCheck}
+					props._user ?
+						props.children
+						:
+						<Forms
+							email={props._email}
+							password={props._password}
+							signUpEmail={props._signUpEmail}
+							signUpPassword={props._signUpPassword}
+							signUpPasswordCheck={props._signUpPasswordCheck}
 
-						onEmailChange={props._onEmailChange}
-						onPasswordChange={props._onPasswordChange}
+							onEmailChange={props._onEmailChange}
+							onPasswordChange={props._onPasswordChange}
 
-						onSignUpEmailChange={props._onSignUpEmailChange}
-						onSignUpPasswordChange={props._onSignUpPasswordChange}
-						onSignUpPasswordCheckChange={props._onSignUpPasswordCheckChange}
+							onSignUpEmailChange={props._onSignUpEmailChange}
+							onSignUpPasswordChange={props._onSignUpPasswordChange}
+							onSignUpPasswordCheckChange={props._onSignUpPasswordCheckChange}
 
-						onLogInClick={props._logIn}
-						onLogInByGoogleClick={props._logInByGoogle}
-						onSignUpClick={props._createUser}
-					/>
+							onLogInClick={props._logIn}
+							onLogInByGoogleClick={props._logInByGoogle}
+							onSignUpClick={props._createUser}
+						/>
 			}
 		</div>
 	)
@@ -49,6 +62,7 @@ const mapStateToProps = state => ({
 	_signUpEmail: state.auth.signUpEmail,
 	_signUpPassword: state.auth.signUpPassword,
 	_signUpPasswordCheck: state.auth.signUpPasswordCheck,
+	_isLoading: state.auth.isLoading,
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -7,7 +7,8 @@ const SIGN_UP_PASSWORD_CHANGED = 'auth/SIGN_UP_PASSWORD_CHANGED'
 const SIGN_UP_PASSWORD_CHECK_CHANGED = 'auth/SIGN_UP_PASSWORD_CHECK_CHANGED'
 const SET_USER = 'auth/SET_USER'
 const CLEAR_STATE = 'auth/CLEAR_STATE'
-
+const LOADING = 'auth/LOADING'
+const SET_USER_LOGIN = 'auth/SET_USER_LOGIN'
 
 export const emailChangedActionCreator = newValue => ({
     type: EMAIL_CHANGED,
@@ -36,6 +37,14 @@ export const setUserActionCreator = user => ({
 export const clearDataActionCreator = () => ({
     type: CLEAR_STATE
 })
+export const loadingActionCreator = () => ({
+    type: LOADING
+})
+export const setUserLoginsAsyncActionCreator = data => ({
+    type: SET_USER_LOGIN,
+    data
+})
+
 
 export const logInAsyncActionCreator = () => (dispatch, getState) => {
     const state = getState()
@@ -57,8 +66,42 @@ export const logInByGoogleAsyncActionCreator = () => (dispatch, getState) => {
 }
 export const startListeningToAuthChangeAsyncActionCreator = () => (dispatch, getState) => {
     auth.onAuthStateChanged(
-        user => dispatch(setUserActionCreator(user))
+        user => {
+            if (user) {
+                dispatch(setUserActionCreator(user))
+                dispatch(saveUserLoginAsyncActionCreator())
+                dispatch(loadingActionCreator())
+                dispatch(startListeningToUsersLoginsAsyncActionCreator())
+            } else {
+                dispatch(loadingActionCreator())
+                dispatch(stopListeningToUsersLoginsAsyncActionCreator())
+                dispatch(setUserActionCreator(user))
+            }
+        }
     )
+}
+export const startListeningToUsersLoginsAsyncActionCreator = () => (dispatch, getState) => {
+    const state = getState()
+    const uid = state.auth.user.uid
+
+    database.ref(`/users/${uid}/login`).on(
+        'value',
+        snapshot => dispatch(setUserLoginsAsyncActionCreator(snapshot.val()))
+    )
+}
+export const stopListeningToUsersLoginsAsyncActionCreator = () => (dispatch, getState) => {
+    const state = getState()
+    const uid = state.auth.user && state.auth.user.uid
+
+    database.ref(`/users/${uid}/login`).off()
+}
+export const saveUserLoginAsyncActionCreator = () => (dispatch, getState) => {
+    const state = getState()
+    const uid = state.auth.user.uid
+
+    database.ref(`/users/${uid}/login`).push({
+        timestamp: Date.now()
+    })
 }
 export const createUserAsyncActionCreator = () => (dispatch, getState) => {
     const state = getState()
@@ -77,6 +120,8 @@ export const createUserAsyncActionCreator = () => (dispatch, getState) => {
 
 const initialState = {
     user: null,
+    userLogins: null,
+    isLoading: true,
     email: '',
     password: '',
     signUpEmail: '',
@@ -119,11 +164,22 @@ export default (state = initialState, action) => {
         case CLEAR_STATE:
             return {
                 ...state,
+                userLogins: null,
                 email: '',
                 password: '',
                 signUpEmail: '',
                 signUpPassword: '',
                 signUpPasswordCheck: '',
+            }
+        case LOADING:
+            return {
+                ...state,
+                isLoading: false,
+            }
+        case SET_USER_LOGIN:
+            return {
+                ...state,
+                userLogins: action.data,
             }
         default:
             return state
