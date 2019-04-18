@@ -1,23 +1,47 @@
 import React from 'react'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+
+const styles = {
+    input: {
+        margin: '10px',
+    },
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    button: {
+        margin: '10px'
+    }
+}
 
 const LogInForm = (props) => (
-    <div>
-        <h2>SIGN IN</h2>
-        <input
-            type={'text'}
+    <div style={styles.container}>
+        <h2>LOG IN</h2>
+        <TextField
+            style={styles.input}
+            label={'Email'}
+            type={'email'}
             value={props.email}
-            onChange={props.onEmailChange}
+            onChange={(event) => props.onEmailChange(event.target.value)}
         />
-         <input
-            // type={'password'}
+        <TextField
+            style={styles.input}
+            label={'Password'}
+            type={'password'}
             value={props.password}
-            onChange={props.onPasswordChange}
+            onChange={(event) => props.onPasswordChange(event.target.value)}
         />
-        <button
+        <Button
+            style={styles.button}
+            variant={'outlined'}
+            color={'primary'}
             onClick={props.onLogInClick}
         >
             LOG IN
-        </button>
+        </Button>
     </div>
 )
 

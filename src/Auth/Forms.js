@@ -3,8 +3,17 @@ import LogInForm from './LogInForm'
 import LogInByGoogleForm from './LogInByGoogleForm'
 import RegistrationForm from './RegistrationForm'
 
+const styles = {
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
+}
+
 const Forms = (props) => (
-    <div>
+    <div style={styles.container}>
         <LogInForm
             email={props.email}
             password={props.password}
@@ -21,9 +30,9 @@ const Forms = (props) => (
             signUpPassword={props.signUpPassword}
             signUpPasswordCheck={props.signUpPasswordCheck}
 
-            onEmailChange={props.onEmailChange}
-            onPasswordChange={props.onPasswordChange}
-            onPasswordCheckChange={props.onPasswordCheckChange}
+            onSignUpEmailChange={props.onSignUpEmailChange}
+            onSignUpPasswordChange={props.onSignUpPasswordChange}
+            onSignUpPasswordCheckChange={props.onSignUpPasswordCheckChange}
 
             onSignUpClick={props.onSignUpClick}
         />

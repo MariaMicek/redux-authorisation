@@ -1,28 +1,54 @@
 import React from 'react'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+
+const styles = {
+    input: {
+        margin: '10px',
+    },
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    button: {
+        margin: '10px'
+    }
+}
 
 const RegistrationForm = (props) => (
-    <div>
+    <div style={styles.container}>
         <h2>SIGN UP</h2>
-        <input
-            type={'text'}
+        <TextField
+            style={styles.input}
+            label={'Email'}
+            type={'email'}
             value={props.signUpEmail}
-            onChange={props.onEmailChange}
+            onChange={(event) => props.onSignUpEmailChange(event.target.value)}
         />
-        <input
-            // type={'password'}
+        <TextField
+            style={styles.input}
+            label={'Password'}
+            type={'password'}
             value={props.signUpPassword}
-            onChange={props.onPasswordChange}
+            onChange={(event) => props.onSignUpPasswordChange(event.target.value)}
         />
-        <input
-            // type={'password'}
+        <TextField
+            style={styles.input}
+            label={'Verify password'}
+            type={'password'}
             value={props.signUpPasswordCheck}
-            onChange={props.onPasswordCheckChange}
+            onChange={(event) => props.onSignUpPasswordCheckChange(event.target.value)}
         />
-        <button
+        <Button
+            style={styles.button}
+            variant={'outlined'}
+            color={'primary'}
             onClick={props.onSignUpClick}
         >
             SIGN IN
-        </button>
+        </Button>
     </div>
 )
 

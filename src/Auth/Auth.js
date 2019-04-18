@@ -1,6 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Forms from './Forms'
+import {
+	emailChangedActionCreator, 
+	passwordChangedActionCreator, 
+	signUpEmailChangedActCreator, 
+	signUpPassChangedActCreator, 
+	signUpPassCheckChangedActCreator,
+	logInAsyncActionCreator,
+	logInByGoogleAsyncActionCreator,
+	createUserAsyncActionCreator,
+} from '../state/auth'
 
 const Auth = (props) => {
 	return (
@@ -16,13 +26,16 @@ const Auth = (props) => {
 						signUpPassword={props._signUpPassword}
 						signUpPasswordCheck={props._signUpPasswordCheck}
 
-						onEmailChange={() => { }}
-						onPasswordChange={() => { }}
-						onPasswordCheckChange={() => { }}
+						onEmailChange={props._onEmailChange}
+						onPasswordChange={props._onPasswordChange}
 
-						onLogInClick={() => { }}
-						onLogInByGoogleClick={() => { }}
-						onSignUpClick={() => { }}
+						onSignUpEmailChange={props._onSignUpEmailChange}
+						onSignUpPasswordChange={props._onSignUpPasswordChange}
+						onSignUpPasswordCheckChange={props._onSignUpPasswordCheckChange}
+
+						onLogInClick={props._logIn}
+						onLogInByGoogleClick={props._logInByGoogle}
+						onSignUpClick={props._createUser}
 					/>
 			}
 		</div>
@@ -39,7 +52,15 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+	_onEmailChange: (event) => dispatch(emailChangedActionCreator(event)),
+	_onPasswordChange: (event) => dispatch(passwordChangedActionCreator(event)),
+	_onSignUpEmailChange: (event) => dispatch(signUpEmailChangedActCreator(event)),
+	_onSignUpPasswordChange: (event) => dispatch(signUpPassChangedActCreator(event)),
+	_onSignUpPasswordCheckChange: (event) => dispatch(signUpPassCheckChangedActCreator(event)),
 
+	_logIn: () => dispatch(logInAsyncActionCreator()),
+	_logInByGoogle: () => dispatch(logInByGoogleAsyncActionCreator()),
+	_createUser: () => dispatch(createUserAsyncActionCreator()),
 })
 
 export default connect(
@@ -47,4 +68,3 @@ export default connect(
 	mapDispatchToProps
 )(Auth)
 
-// export default Auth
